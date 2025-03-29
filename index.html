@@ -3,169 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Stability Calculator</title>
     <link rel="manifest" href="manifest.json">
 
     <style>
-        .background-dark {background-color: #262626;}
-
-        .center {display: flex;
-        justify-content: center;}
-
-        .margin-top{
-            margin-top: 30px;
-        }
-
-        .line{
-            margin-top: 10px;
-        }
-
-        .between{
-            margin-top: 20px;
-        }
-
-        .design{
-            font-size: 25px;
-            color: darkgray;
-            font-family: 'Times New Roman', Times, serif; 
-        }
-
-        .size{
-            font-size: larger;
-            
-        }
-
-        .output{
-            font-size: 50px;
-            max-width: 150px;
-    
-        }
-     
+        .background-dark { background-color: #262626; color: white; }
+        .center { display: flex; justify-content: center; }
+        .margin-top { margin-top: 30px; }
+        .line { margin-top: 10px; }
+        .between { margin-top: 20px; }
+        .design { font-size: 25px; color: darkgray; font-family: 'Times New Roman', Times, serif; }
+        .size { font-size: larger; }
+        .output { font-size: 50px; max-width: 150px; }
     </style>
-
 
 </head>
 <body class="background-dark">
 
-   <div>
-    Coma has to be a . not ,
-   </div>
 
-    <div class="margin-top design center">
-    TWIST RATIO inch
+    <div class="margin-top design center">TWIST RATIO inch</div>
+    <div class="line center">
+        <input class="size" type="text" placeholder="e.g.:10" id="twist" size="2" maxlength="2" required style="height:30px;">
     </div>
-    
-<div class="line center">
-    <input class="size" type="text" 
-    placeholder="e.g.:10" 
-    id="twist" 
-    size="2" maxlength="2"
-    required
-    style="height:30px;" >
-    
-</div>
 
-<div class="between design center">
-    BULLET DIAMETER inch
-</div>
+    <div class="between design center">BULLET DIAMETER inch</div>
+    <div class="line center">
+        <input class="size" type="text" placeholder="e.g.:0.308" id="caliber" maxlength="5" size="5" required style="height:30px;">
+    </div>
 
-<div .caliberinput class="line center">
-    <input class="size" type="text" 
-    placeholder="e.g.:0.308" 
-    id="caliber" 
-    maxlength="5"
-    size="5"
-    required
-    style="height:30px;" >
-</div>
+    <div class="between design center">BULLET LENGTH inch</div>
+    <div class="line center">
+        <input class="size" type="text" placeholder="e.g.:1.152" id="length" maxlength="5" size="5" required style="height:30px;">
+    </div>
 
-<div class="between design center">
-    BULLET LENGTH inch
-</div>
+    <div class="between design center">BULLET WEIGHT grain</div>
+    <div class="line center">
+        <input class="size" type="text" placeholder="e.g.:168" id="weight" maxlength="3" size="3" required style="height:30px;">
+    </div>
 
-<div class="line center">
-    <input class="size" type="text" 
-    placeholder="e.g.:1.152" 
-    id="length" 
-    maxlength="5"
-    size="5"
-    required
-    style="height:30px;" >
-</div>
-
-<div class="between design center">
-    BULLET WEIGHT grain
-</div>
-
-<div class="line center">
-    <input class="size" type="text"
-    placeholder="e.g.:168"
-    id="weight"
-    maxlength="3"
-    size="3"
-    required
-    style="height:30px;" >
-</div>
-
-<div class="between center design">
-    BULLET SPEED fps
-</div>
-
-<div class="line center">
-    <input class="size" type="text"
-    placeholder="e.g.:2950"
-    id="speed"
-    maxlength="4"
-    size="4"
-    required
-    style="height:30px;" >
-</div>
+    <div class="between center design">BULLET SPEED fps</div>
+    <div class="line center">
+        <input class="size" type="text" placeholder="e.g.:2950" id="speed" maxlength="4" size="4" required style="height:30px;">
+    </div>
 
     <div class="center between">
         <img src="img/bullet.png" width="50%" height="100%" id="calculate">
     </div>
 
-<div class="line center design">
-        STABILITY
-</div>
-    
-<div class="center line">
-<input class="size" type="button" value="Calculate" onclick="calculate()"
->
+    <div class="line center design">STABILITY</div>
 
-</div>
+    <div class="center line">
+        <input class="size" type="button" value="Calculate" onclick="calculate()">
+    </div>
 
-<div class="center line">
-    <input class="output" type="text"
-    id="result">
-</div>
+    <div class="center line">
+        <input class="output" type="text" id="result" readonly>
+    </div>
 
-<script>
-function calculate() {
+    <script>
+    function calculate() {
+        // Werte aus den Eingabefeldern holen
+        var t = document.getElementById("twist").value.replace(",", ".");
+        var c = document.getElementById("caliber").value.replace(",", ".");
+        var l = document.getElementById("length").value.replace(",", ".");
+        var w = document.getElementById("weight").value.replace(",", ".");
+        var s = document.getElementById("speed").value.replace(",", ".");
 
-var t =document.getElementById("twist").value;
-var c =document.getElementById("caliber").value;
-var l =document.getElementById("length").value;
-var w =document.getElementById("weight").value;
-var s =document.getElementById("speed").value;
+        // Prüfen, ob alle Felder ausgefüllt sind
+        if (!t || !c || !l || !w || !s) {
+            alert("Fill all Boxes");
+            return;
+        }
 
-var x = (30*w*c*c)/(t*t*l*(c*c+l*l));
-var y = (s/2800)**( 1/3 );
-var z = x*y
+        // Werte in Zahlen umwandeln
+        t = parseFloat(t);
+        c = parseFloat(c);
+        l = parseFloat(l);
+        w = parseFloat(w);
+        s = parseFloat(s);
 
-document.getElementById("result").value=z;
-}
-</script>
+        // Berechnung durchführen
+        var x = (30 * w * c * c) / (t * t * l * (c * c + l * l));
+        var y = Math.pow((s / 2800), (1 / 3));
+        var z = x * y;
 
-<div class="center design">
-   <p> 1.0 - 1.2  -100m </p> 
-   <p> 1.3 - 1.5  <300m </p> 
-   <p> 1.6 - 2.0  >300m </p>
-</div>
+        // Ergebnis runden und anzeigen
+        document.getElementById("result").value = z.toFixed(2);
+    }
+    </script>
 
-<div class="line">
-&copy;Cable_x90
-</div>
+    <div class="center design">
+       <p> 1.0 - 1.2  -100m </p> 
+       <p> 1.3 - 1.5  &lt;300m </p> 
+       <p> 1.6 - 2.0  &gt;300m </p>
+    </div>
+
+    <div class="line">&copy; Cable_x90</div>
 
 </body>
 </html>
