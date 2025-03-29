@@ -1,7 +1,7 @@
 {
     "name": "Stability Calculator",
     "short_name": "StabilityCalc",
-    "start_url": "/index.html",
+    "start_url": "/stability-calculator-v1/index.html",
     "display": "standalone",
     "background_color": "#262626",
     "theme_color": "#262626",
