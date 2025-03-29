@@ -20,12 +20,13 @@
 </head>
 
 <script>
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("sw.js")
-        .then(() => console.log("Service Worker registriert"))
-        .catch(err => console.log("Service Worker Fehler: ", err));
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/stability-calculator-v1/sw.js')
+        .then(reg => console.log("Service Worker Registered", reg))
+        .catch(err => console.log("Service Worker Registration Failed", err));
     }
   </script>
+  
   
 
 <body class="background-dark">
